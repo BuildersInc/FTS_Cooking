@@ -1,0 +1,8 @@
+name: Cooking
+version: '${project.version}'
+main: de.buildersinc.fts.cooking.main.Cooking
+api-version: 1.19
+authors: [ Builders_Inc ]
+description: A new cooking system for the FTS-Craft server
+commands:
+  debug:
