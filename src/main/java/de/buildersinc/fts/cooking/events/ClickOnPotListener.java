@@ -1,6 +1,7 @@
 package de.buildersinc.fts.cooking.events;
 
 import com.jeff_media.customblockdata.CustomBlockData;
+import de.buildersinc.fts.cooking.crafting.CraftingManager;
 import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
 import de.buildersinc.fts.cooking.utils.GuiTools;
@@ -42,6 +43,7 @@ public class ClickOnPotListener implements Listener {
             case "super_pot" -> event.getPlayer().openInventory(potInv(ChatColor.YELLOW, "Perfekter Topf"));
         }
 
+        CraftingManager.addToProcessMap(event.getPlayer(), event.getClickedBlock());
 
     }
 

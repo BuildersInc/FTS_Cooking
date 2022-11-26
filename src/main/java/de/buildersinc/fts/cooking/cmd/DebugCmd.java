@@ -1,5 +1,6 @@
 package de.buildersinc.fts.cooking.cmd;
 
+import de.buildersinc.fts.cooking.crafting.CraftingManager;
 import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
 import de.buildersinc.fts.cooking.utils.GuiTools;
@@ -28,6 +29,7 @@ public class DebugCmd implements CommandExecutor {
         }
         player.openInventory(debugInv);
 
+        System.out.println(CraftingManager.getBlockFromPlayer((Player) sender));
         return false;
     }
 }

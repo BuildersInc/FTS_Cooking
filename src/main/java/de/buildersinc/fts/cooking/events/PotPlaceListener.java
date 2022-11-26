@@ -2,15 +2,11 @@ package de.buildersinc.fts.cooking.events;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.buildersinc.fts.cooking.main.Cooking;
-import de.buildersinc.fts.cooking.utils.GuiTools;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -37,6 +33,7 @@ public class PotPlaceListener implements Listener {
         }
 
     }
+
     private void updateBlockData(Block block, String potType, NamespacedKey nsk) {
         PersistentDataContainer container = new CustomBlockData(block, plugin);
         container.set(nsk, PersistentDataType.STRING, potType);
