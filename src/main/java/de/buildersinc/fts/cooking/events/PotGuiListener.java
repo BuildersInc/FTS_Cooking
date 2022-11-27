@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -37,8 +38,14 @@ public class PotGuiListener implements Listener {
         if (id.equalsIgnoreCase("placeHolder")) {
             event.setCancelled(true);
         }
+        CraftingMatrix invMatrix = CraftingMatrix.inventoryToMatrix(event.getClickedInventory());
 
-        System.out.println(CraftingMatrix.inventoryToMatrix(event.getClickedInventory()));
+        for (CraftingMatrix matrix : Cooking.getCustomCrafting()) {
+            System.out.println(matrix.compareTo(invMatrix));
+            if (matrix.compareTo(invMatrix) == 0) {
+                event.getClickedInventory().setItem(24, matrix.getResult());
+            }
+        }
 
     }
 

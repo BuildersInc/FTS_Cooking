@@ -24,6 +24,7 @@ public class CraftingManager implements Listener {
     public CraftingManager(Cooking plugin) {
         this.plugin = plugin;
         initVanillaBasedRecipes();
+        initCustomRecipes();
         currentCraftingProcesses = new HashMap<>();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
@@ -55,6 +56,17 @@ public class CraftingManager implements Listener {
         NamespacedKey brickKey = new NamespacedKey(plugin, "brickKey");
         FurnaceRecipe brick = new FurnaceRecipe(brickKey, new ItemStack(Material.CLAY_BALL) , new RecipeChoice.ExactChoice(new ItemStack(Material.BRICK)), 1.00F, 45);
         plugin.getServer().addRecipe(brick);
+    }
+
+    private void initCustomRecipes() {
+        CraftingMatrix sweetFish = new CraftingMatrix("asa", "sfs", "asa");
+        sweetFish.setItem('a', new ItemStack(Material.AIR));
+        sweetFish.setItem('s', new ItemStack(Material.SUGAR));
+        sweetFish.setItem('f', new ItemStack(Material.COOKED_COD));
+        sweetFish.setResult(Items.SWEET_FISH.getItemStack());
+        sweetFish.addRecipeAsMatrix(true);
+
+
     }
 
     public static Block getBlockFromPlayer(Player player) {

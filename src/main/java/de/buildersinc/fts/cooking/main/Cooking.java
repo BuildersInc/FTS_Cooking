@@ -45,4 +45,8 @@ public final class Cooking extends JavaPlugin {
         customCrafting.add(matrix);
         plugin.getLogger().info(matrix + "was added");
     }
+
+    public static List<CraftingMatrix> getCustomCrafting() {
+        return customCrafting;
+    }
 }

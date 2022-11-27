@@ -20,6 +20,7 @@ public class CraftingMatrix implements Comparable{
     private ItemStack[] thirdRowCrafting;
 
     private List<List<ItemStack>> craftingMatrix;
+    private ItemStack result;
 
     public CraftingMatrix() {
         this.firstRowCrafting = initCraftingArray(Material.AIR);
@@ -106,8 +107,13 @@ public class CraftingMatrix implements Comparable{
         return craftingMatrix;
     }
 
+    public void setResult(ItemStack result) {
+        this.result = result;
+    }
 
-
+    public ItemStack getResult() {
+        return result;
+    }
 
     @Override
     public int compareTo(@NotNull Object o) {
@@ -116,8 +122,9 @@ public class CraftingMatrix implements Comparable{
         int result = 0;
 
         for (int i = 0; i < craftingMatrix.size(); i++) {
+            // TODO fix the equalCheck
             if (!craftingMatrix.get(i).containsAll(compare.getCraftingMatrix().get(i))) {
-                result = -1;
+                result = -2;
             }
         }
 
