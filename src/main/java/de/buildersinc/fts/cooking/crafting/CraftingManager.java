@@ -12,6 +12,10 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
 
 import java.util.HashMap;
 
@@ -60,9 +64,17 @@ public class CraftingManager implements Listener {
 
     private void initCustomRecipes() {
         CraftingMatrix cleanWater = new CraftingMatrix("ara", "awa", "aaa");
+
+        ItemStack bottle = new ItemStack(Material.POTION, 1);
+        ItemMeta meta = bottle.getItemMeta();
+        PotionMeta pmeta = (PotionMeta) meta;
+        PotionData pdata = new PotionData(PotionType.WATER);
+        pmeta.setBasePotionData(pdata);
+        bottle.setItemMeta(meta);
+
         cleanWater.setItem('a', new ItemStack(Material.AIR));
         cleanWater.setItem('r', new ItemStack(Material.REDSTONE));
-        cleanWater.setItem('w', new ItemStack(Material.POTION));
+        cleanWater.setItem('w', bottle);
         cleanWater.setResult(Items.CLEAN_WATER.getItemStack());
         cleanWater.addRecipeAsMatrix(true);
 
@@ -81,8 +93,44 @@ public class CraftingManager implements Listener {
         sweetFish.setResult(Items.SWEET_FISH.getItemStack());
         sweetFish.addRecipeAsMatrix(true);
 
+        CraftingMatrix sourJam = new CraftingMatrix("aba", "bsb", "awa");
+        sourJam.setItem('a', new ItemStack(Material.AIR));
+        sourJam.setItem('b', new ItemStack(Material.SWEET_BERRIES));
+        sourJam.setItem('w', new ItemStack(Material.WATER_BUCKET));
+        sourJam.setItem('s', new ItemStack(Material.SUGAR));
+        sourJam.setResult(Items.SOUR_JAM.getItemStack());
+        sourJam.addRecipeAsMatrix(true);
 
+        CraftingMatrix sweetJam = new CraftingMatrix("bbb", "bsb", "sws");
+        sweetJam.setItem('b', new ItemStack(Material.SWEET_BERRIES));
+        sweetJam.setItem('s', new ItemStack(Material.SUGAR));
+        sweetJam.setItem('w', new ItemStack(Material.WATER_BUCKET));
+        sweetJam.setResult(Items.SWEET_JAM.getItemStack());
+        sweetJam.addRecipeAsMatrix(true);
 
+        CraftingMatrix humanFlesh = new CraftingMatrix("srs", "rrr", "awa");
+        humanFlesh.setItem('s', Items.SALT.getItemStack());
+        humanFlesh.setItem('r', new ItemStack(Material.ROTTEN_FLESH));
+        humanFlesh.setItem('a', new ItemStack(Material.AIR));
+        humanFlesh.setItem('w', new ItemStack(Material.WATER_BUCKET));
+        humanFlesh.setResult(Items.HUMAN_FLESH.getItemStack());
+        humanFlesh.addRecipeAsMatrix(true);
+
+        CraftingMatrix beetSoup = new CraftingMatrix("bbb", "bbb", "sws");
+        beetSoup.setItem('b', new ItemStack(Material.BEETROOT));
+        beetSoup.setItem('s', Items.SALT.getItemStack());
+        beetSoup.setItem('w', new ItemStack(Material.WATER_BUCKET));
+        beetSoup.setResult(Items.BEETROOT_SOUP.getItemStack());
+        beetSoup.addRecipeAsMatrix(true);
+
+        CraftingMatrix mushroomSoup = new CraftingMatrix("rsr", "bsb", "awa");
+        mushroomSoup.setItem('r', new ItemStack(Material.RED_MUSHROOM));
+        mushroomSoup.setItem('b', new ItemStack(Material.BROWN_MUSHROOM));
+        mushroomSoup.setItem('s', Items.SALT.getItemStack());
+        mushroomSoup.setItem('w', new ItemStack(Material.WATER_BUCKET));
+        mushroomSoup.setItem('a', new ItemStack(Material.AIR));
+        mushroomSoup.setResult(Items.SHROOM_SOUP.getItemStack());
+        mushroomSoup.addRecipeAsMatrix(true);
 
     }
 
