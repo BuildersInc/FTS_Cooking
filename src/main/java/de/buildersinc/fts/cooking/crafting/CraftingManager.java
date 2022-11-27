@@ -59,12 +59,29 @@ public class CraftingManager implements Listener {
     }
 
     private void initCustomRecipes() {
+        CraftingMatrix cleanWater = new CraftingMatrix("ara", "awa", "aaa");
+        cleanWater.setItem('a', new ItemStack(Material.AIR));
+        cleanWater.setItem('r', new ItemStack(Material.REDSTONE));
+        cleanWater.setItem('w', new ItemStack(Material.POTION));
+        cleanWater.setResult(Items.CLEAN_WATER.getItemStack());
+        cleanWater.addRecipeAsMatrix(true);
+
+        CraftingMatrix melonJuice = new CraftingMatrix("mmm", "hbh", "aaa");
+        melonJuice.setItem('a', new ItemStack(Material.AIR));
+        melonJuice.setItem('h', new ItemStack(Material.HONEYCOMB));
+        melonJuice.setItem('m', new ItemStack(Material.MELON_SLICE));
+        melonJuice.setItem('b', new ItemStack(Material.GLASS_BOTTLE));
+        melonJuice.setResult(Items.MELON_JUICE.getItemStack());
+        melonJuice.addRecipeAsMatrix(true);
+
         CraftingMatrix sweetFish = new CraftingMatrix("asa", "sfs", "asa");
         sweetFish.setItem('a', new ItemStack(Material.AIR));
         sweetFish.setItem('s', new ItemStack(Material.SUGAR));
         sweetFish.setItem('f', new ItemStack(Material.COOKED_COD));
         sweetFish.setResult(Items.SWEET_FISH.getItemStack());
         sweetFish.addRecipeAsMatrix(true);
+
+
 
 
     }
