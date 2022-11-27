@@ -94,10 +94,13 @@ public class CraftingMatrix implements Comparable{
 
     public static CraftingMatrix inventoryToMatrix(Inventory inventory) {
         CraftingMatrix matrix = new CraftingMatrix();
+        int itemIndex;
 
-        for (int col = 0, itemIndex = 10, row = 0; col < 3; col++, row++) {
-            matrix.setItem(col, row, inventory.getItem(itemIndex + col + (9 * row)) == null ? new ItemStack(Material.AIR) : inventory.getItem(itemIndex + col + (9 * row)));
-
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                itemIndex = 10 + col + (9 * row);
+                matrix.setItem(col, row, inventory.getItem(itemIndex) == null ? new ItemStack(Material.AIR) : inventory.getItem(itemIndex));
+            }
         }
         matrix.addRecipeAsMatrix(false);
         return matrix;
@@ -122,8 +125,7 @@ public class CraftingMatrix implements Comparable{
         int result = 0;
 
         for (int i = 0; i < craftingMatrix.size(); i++) {
-            // TODO fix the equalCheck
-            if (!craftingMatrix.get(i).containsAll(compare.getCraftingMatrix().get(i))) {
+            if (!craftingMatrix.get(i).equals(compare.getCraftingMatrix().get(i))) {
                 result = -2;
             }
         }
