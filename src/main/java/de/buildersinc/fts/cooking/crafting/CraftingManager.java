@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
@@ -60,6 +61,24 @@ public class CraftingManager implements Listener {
         NamespacedKey brickKey = new NamespacedKey(plugin, "brickKey");
         FurnaceRecipe brick = new FurnaceRecipe(brickKey, new ItemStack(Material.CLAY_BALL) , new RecipeChoice.ExactChoice(new ItemStack(Material.BRICK)), 1.00F, 45);
         plugin.getServer().addRecipe(brick);
+
+        ShapedRecipe betterPotato = new ShapedRecipe(new NamespacedKey(plugin, "bp"), Items.BACKED_POTATO_WITH_CURD.getItemStack());
+        betterPotato.shape("kek", "spz", "ama");
+        betterPotato.setIngredient('k', new ItemStack(Material.KELP));
+        betterPotato.setIngredient('e', new ItemStack(Material.EGG));
+        betterPotato.setIngredient('z', new ItemStack(Material.SUGAR));
+        betterPotato.setIngredient('p', new ItemStack(Material.POTATO));
+        betterPotato.setIngredient('s', Items.SALT.getItemStack());
+        betterPotato.setIngredient('a', new ItemStack(Material.AIR));
+        betterPotato.setIngredient('m', new ItemStack(Material.MILK_BUCKET));
+        plugin.getServer().addRecipe(betterPotato);
+
+        ShapedRecipe flour = new ShapedRecipe(new NamespacedKey(plugin, "flour"), Items.FLOUR.getItemStack());
+        flour.shape("sws", "www", "sws");
+        flour.setIngredient('s', new ItemStack(Material.WHEAT_SEEDS));
+        flour.setIngredient('w', new ItemStack(Material.WHEAT));
+        plugin.getServer().addRecipe(flour);
+
     }
 
     private void initCustomRecipes() {
@@ -131,6 +150,94 @@ public class CraftingManager implements Listener {
         mushroomSoup.setItem('a', new ItemStack(Material.AIR));
         mushroomSoup.setResult(Items.SHROOM_SOUP.getItemStack());
         mushroomSoup.addRecipeAsMatrix(true);
+
+        CraftingMatrix rabbitSoup = new CraftingMatrix("srq", "pcp", "jwk");
+        rabbitSoup.setItem('s', Items.SALT.getItemStack());
+        rabbitSoup.setItem('r', new ItemStack(Material.RABBIT));
+        rabbitSoup.setItem('q', new ItemStack(Material.SUGAR));
+        rabbitSoup.setItem('p', new ItemStack(Material.POTATO));
+        rabbitSoup.setItem('c', new ItemStack(Material.CARROT));
+        rabbitSoup.setItem('j', new ItemStack(Material.BROWN_MUSHROOM));
+        rabbitSoup.setItem('w', new ItemStack(Material.WATER_BUCKET));
+        rabbitSoup.setItem('k', new ItemStack(Material.RED_MUSHROOM));
+        rabbitSoup.setResult(Items.RABBIT_SOUP.getItemStack());
+        rabbitSoup.addRecipeAsMatrix(true);
+
+        CraftingMatrix stew = new CraftingMatrix("hsh", "cpc", "gwg");
+        stew.setItem('h', new ItemStack(Material.PORKCHOP));
+        stew.setItem('s', new ItemStack(Material.SUGAR));
+        stew.setItem('c', new ItemStack(Material.BEEF));
+        stew.setItem('p', new ItemStack(Material.POTATO));
+        stew.setItem('g', Items.SALT.getItemStack());
+        stew.setItem('w', new ItemStack(Material.WATER_BUCKET));
+        stew.setResult(Items.STEW.getItemStack());
+        stew.addRecipeAsMatrix(true);
+
+        CraftingMatrix algeaSpoup = new CraftingMatrix("aga", "glg", "sws");
+        algeaSpoup.setItem('a', new ItemStack(Material.AIR));
+        algeaSpoup.setItem('g', new ItemStack(Material.KELP));
+        algeaSpoup.setItem('l', new ItemStack(Material.SEAGRASS));
+        algeaSpoup.setItem('s', Items.SALT.getItemStack());
+        algeaSpoup.setItem('w', new ItemStack(Material.WATER_BUCKET));
+        algeaSpoup.setResult(Items.ALGEA_SOUP.getItemStack());
+        algeaSpoup.addRecipeAsMatrix(true);
+
+        CraftingMatrix potatoSoup = new CraftingMatrix("asa", "apa", "pwp");
+        potatoSoup.setItem('a', new ItemStack(Material.AIR));
+        potatoSoup.setItem('s', new ItemStack(Material.SUGAR));
+        potatoSoup.setItem('p', new ItemStack(Material.POTATO));
+        potatoSoup.setItem('w', new ItemStack(Material.WATER_BUCKET));
+        potatoSoup.setResult(Items.POTATO_SOUP.getItemStack());
+        potatoSoup.addRecipeAsMatrix(true);
+
+        CraftingMatrix fishSoup = new CraftingMatrix("cks", "skc", "gwj");
+        fishSoup.setItem('c', new ItemStack(Material.COD));
+        fishSoup.setItem('s', new ItemStack(Material.SALMON));
+        fishSoup.setItem('k', new ItemStack(Material.KELP));
+        fishSoup.setItem('g', new ItemStack(Material.SUGAR));
+        fishSoup.setItem('w', new ItemStack(Material.WATER_BUCKET));
+        fishSoup.setItem('j', Items.SALT.getItemStack());
+        fishSoup.setResult(Items.FISH_SOUP.getItemStack());
+        fishSoup.addRecipeAsMatrix(true);
+
+        CraftingMatrix chickenSoup = new CraftingMatrix("scs", "php", "hwh");
+        chickenSoup.setItem('s', new ItemStack(Material.SUGAR));
+        chickenSoup.setItem('c', new ItemStack(Material.CARROT));
+        chickenSoup.setItem('p', new ItemStack(Material.POTATO));
+        chickenSoup.setItem('h', new ItemStack(Material.CHICKEN));
+        chickenSoup.setItem('w', new ItemStack(Material.WATER_BUCKET));
+        chickenSoup.setResult(Items.CHICKEN_SOUP.getItemStack());
+        chickenSoup.addRecipeAsMatrix(true);
+
+        CraftingMatrix pumpkinPie = new CraftingMatrix("wsw", "epe", "zfz");
+        pumpkinPie.setItem('w', new ItemStack(Material.WATER_BUCKET));
+        pumpkinPie.setItem('z', new ItemStack(Material.SUGAR));
+        pumpkinPie.setItem('e', new ItemStack(Material.EGG));
+        pumpkinPie.setItem('p', new ItemStack(Material.PUMPKIN));
+        pumpkinPie.setItem('s', Items.SALT.getItemStack());
+        pumpkinPie.setItem('f', Items.FLOUR.getItemStack());
+        pumpkinPie.setResult(Items.PUMPKIN_PIE_DOUGH.getItemStack());
+        pumpkinPie.addRecipeAsMatrix(true);
+
+        CraftingMatrix sweetCake = new CraftingMatrix("bsb", "fmf", "eme");
+        sweetCake.setItem('b', new ItemStack(Material.SWEET_BERRIES));
+        sweetCake.setItem('s', new ItemStack(Material.SUGAR));
+        sweetCake.setItem('m', new ItemStack(Material.MILK_BUCKET));
+        sweetCake.setItem('f', Items.FLOUR.getItemStack());
+        sweetCake.setItem('e', new ItemStack(Material.EGG));
+        sweetCake.setResult(Items.SWEET_PIE_DOUGH.getItemStack());
+        sweetCake.addRecipeAsMatrix(true);
+
+        CraftingMatrix cookie = new CraftingMatrix("wbw", "cwc", "sfs");
+        cookie.setItem('w', new ItemStack(Material.WHEAT));
+        cookie.setItem('c', new ItemStack(Material.COCOA_BEANS));
+        cookie.setItem('b', new ItemStack(Material.WATER_BUCKET));
+        cookie.setItem('s', new ItemStack(Material.SUGAR));
+        cookie.setItem('f', Items.FLOUR.getItemStack());
+        cookie.setResult(Items.COOKIE_DOUGH.getItemStack());
+        cookie.addRecipeAsMatrix(true);
+
+
 
     }
 
