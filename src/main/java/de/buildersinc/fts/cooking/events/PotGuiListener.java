@@ -1,6 +1,7 @@
 package de.buildersinc.fts.cooking.events;
 
 import de.buildersinc.fts.cooking.crafting.CraftingManager;
+import de.buildersinc.fts.cooking.crafting.CraftingMatrix;
 import de.buildersinc.fts.cooking.main.Cooking;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -24,10 +25,10 @@ public class PotGuiListener implements Listener {
     public void onInvClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
-        System.out.println(event.getCurrentItem());
 
         if (itemStack == null) return;
         if (!itemStack.hasItemMeta()) return;
+
         PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
         NamespacedKey key = new NamespacedKey(Cooking.getPlugin(), "pot");
         String id = container.get(key, PersistentDataType.STRING);
@@ -36,6 +37,8 @@ public class PotGuiListener implements Listener {
         if (id.equalsIgnoreCase("placeHolder")) {
             event.setCancelled(true);
         }
+
+        System.out.println(CraftingMatrix.inventoryToMatrix(event.getClickedInventory()));
 
     }
 
