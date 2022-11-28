@@ -18,22 +18,29 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class CraftingManager implements Listener {
 
     private Cooking plugin;
+    private List<CraftingMatrix> customCrafting;
     private static HashMap<Player, Block> currentCraftingProcesses;
 
     public CraftingManager(Cooking plugin) {
         this.plugin = plugin;
-        initVanillaBasedRecipes();
-        initCustomRecipes();
         currentCraftingProcesses = new HashMap<>();
+        customCrafting = new ArrayList<>();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
     }
+    public void loadRecipes() {
+        initVanillaBasedRecipes();
+        initCustomRecipes();
+    }
+
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
         currentCraftingProcesses.remove(event.getPlayer());
@@ -237,8 +244,6 @@ public class CraftingManager implements Listener {
         cookie.setResult(Items.COOKIE_DOUGH.getItemStack());
         cookie.addRecipeAsMatrix(true);
 
-
-
     }
 
     public static Block getBlockFromPlayer(Player player) {
@@ -249,5 +254,12 @@ public class CraftingManager implements Listener {
         currentCraftingProcesses.put(player, block);
     }
 
+    public void addRecipe(CraftingMatrix matrix) {
+        customCrafting.add(matrix);
+        plugin.getLogger().info(matrix + "was added");
+    }
 
+    public List<CraftingMatrix> getCustomCrafting() {
+        return customCrafting;
+    }
 }

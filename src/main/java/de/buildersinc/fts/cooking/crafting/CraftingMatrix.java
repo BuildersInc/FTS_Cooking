@@ -20,15 +20,21 @@ public class CraftingMatrix implements Comparable{
     private ItemStack[] thirdRowCrafting;
 
     private List<List<ItemStack>> craftingMatrix;
+
     private ItemStack result;
+    private int cookingTime;
+    private CraftingManager craftingManager;
 
     public CraftingMatrix() {
+        this.craftingManager = Cooking.getCraftingManager();
+        this.cookingTime = 0;
         this.firstRowCrafting = initCraftingArray(Material.AIR);
         this.secondRowCrafting = initCraftingArray(Material.AIR);
         this.thirdRowCrafting = initCraftingArray(Material.AIR);
     }
 
     public CraftingMatrix(String... recipe) {
+
         if (recipe.length > 3) {
             throw new InvalidCraftingMatrix("To many rows", recipe);
         }
@@ -38,7 +44,8 @@ public class CraftingMatrix implements Comparable{
                 throw new InvalidCraftingMatrix("Row " + s + " is too long " + s.length(), recipe);
             }
         }
-
+        this.craftingManager = Cooking.getCraftingManager();
+        this.cookingTime = 0;
         this.craftingString = recipe;
         this.firstRowCrafting = initCraftingArray(Material.AIR);
         this.secondRowCrafting = initCraftingArray(Material.AIR);
@@ -80,7 +87,7 @@ public class CraftingMatrix implements Comparable{
         craftingMatrix.add(thirdRow);
 
         if (adToServer) {
-            Cooking.addRecipe(this);
+            craftingManager.addRecipe(this);
         }
     }
 
@@ -108,6 +115,14 @@ public class CraftingMatrix implements Comparable{
 
     public List<List<ItemStack>> getCraftingMatrix() {
         return craftingMatrix;
+    }
+
+    public int getCookingTime() {
+        return cookingTime;
+    }
+
+    public void setCookingTime(int cookingTime) {
+        this.cookingTime = cookingTime;
     }
 
     public void setResult(ItemStack result) {

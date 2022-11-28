@@ -23,6 +23,7 @@ public class PotPlaceListener implements Listener {
     public void onPlaceEvent(BlockPlaceEvent event) {
         ItemStack itemStack = event.getItemInHand();
         NamespacedKey nsk = new NamespacedKey(Cooking.getPlugin(), "ftsCooking");
+        NamespacedKey nsk2 = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingTime");
         Block block = event.getBlock();
 
         if (!itemStack.getItemMeta().getPersistentDataContainer().has(nsk)) return;
@@ -32,6 +33,11 @@ public class PotPlaceListener implements Listener {
             case "super_pot" -> updateBlockData(block, "super_pot", nsk);
         }
 
+        PersistentDataContainer container = new CustomBlockData(block, plugin);
+        container.set(nsk2, PersistentDataType.INTEGER, 0);
+
+
+
     }
 
     private void updateBlockData(Block block, String potType, NamespacedKey nsk) {
@@ -39,5 +45,4 @@ public class PotPlaceListener implements Listener {
         container.set(nsk, PersistentDataType.STRING, potType);
 
     }
-
 }

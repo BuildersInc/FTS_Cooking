@@ -64,6 +64,8 @@ public class ClickOnPotListener implements Listener {
 
         inv.setItem(12 + 9 + 3, new ItemStack(Material.AIR));
 
+        inv.setItem(12 + 9 + 2, GuiTools.createItem("pot", "Kochen Starten", Material.RED_STAINED_GLASS_PANE, "startCooking", true));
+
 
         return inv;
     }

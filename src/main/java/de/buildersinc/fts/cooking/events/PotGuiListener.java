@@ -1,9 +1,12 @@
 package de.buildersinc.fts.cooking.events;
 
+import de.buildersinc.fts.cooking.crafting.CraftingManager;
 import de.buildersinc.fts.cooking.crafting.CraftingMatrix;
 import de.buildersinc.fts.cooking.main.Cooking;
+import de.buildersinc.fts.cooking.tasks.BlockUpdateTask;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,13 +42,18 @@ public class PotGuiListener implements Listener {
         PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
         NamespacedKey key = new NamespacedKey(Cooking.getPlugin(), "pot");
         String id = container.get(key, PersistentDataType.STRING);
-        if (id != null && id.equalsIgnoreCase("placeHolder")) {
+        if (id != null) {
             event.setCancelled(true);
+            if (id.equalsIgnoreCase("startCooking")) {
+                Block block = CraftingManager.getBlockFromPlayer(player);
+                BlockUpdateTask blockUpdateTask = new BlockUpdateTask(block);
+                blockUpdateTask.startTask();
+            }
         }
     }
 
     private boolean checkResult(CraftingMatrix invMatrix, Inventory inventory) {
-        for (CraftingMatrix matrix : Cooking.getCustomCrafting()) {
+        for (CraftingMatrix matrix : Cooking.getCraftingManager().getCustomCrafting()) {
             if (matrix.compareTo(invMatrix) == 0) {
                 inventory.setItem(24, matrix.getResult());
                 return true;
