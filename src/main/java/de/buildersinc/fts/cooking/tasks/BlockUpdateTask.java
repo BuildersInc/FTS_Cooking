@@ -36,7 +36,7 @@ public class BlockUpdateTask {
 
     public void startTask() {
 
-        pid = Bukkit.getScheduler().scheduleSyncRepeatingTask(Cooking.getPlugin(), this::task, 1, 5);
+        pid = Bukkit.getScheduler().scheduleSyncRepeatingTask(Cooking.getPlugin(), this::task, 1, 20);
         this.isRunning = true;
     }
 
