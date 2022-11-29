@@ -117,14 +117,6 @@ public class CraftingMatrix implements Comparable{
         return craftingMatrix;
     }
 
-    public int getCookingTime() {
-        return cookingTime;
-    }
-
-    public void setCookingTime(int cookingTime) {
-        this.cookingTime = cookingTime;
-    }
-
     public void setResult(ItemStack result) {
         this.result = result;
     }
@@ -140,8 +132,10 @@ public class CraftingMatrix implements Comparable{
         int result = 0;
 
         for (int i = 0; i < craftingMatrix.size(); i++) {
-            if (!craftingMatrix.get(i).equals(compare.getCraftingMatrix().get(i))) {
-                result = -2;
+            for (int j = 0; j < 3; j++) {
+                if (!craftingMatrix.get(i).get(j).asOne().equals(compare.getCraftingMatrix().get(i).get(j).asOne())) {
+                    result = -2;
+                }
             }
         }
 

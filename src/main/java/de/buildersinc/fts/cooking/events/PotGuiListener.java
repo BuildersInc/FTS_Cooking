@@ -1,7 +1,9 @@
 package de.buildersinc.fts.cooking.events;
 
+import com.jeff_media.customblockdata.CustomBlockData;
 import de.buildersinc.fts.cooking.crafting.CraftingManager;
 import de.buildersinc.fts.cooking.crafting.CraftingMatrix;
+import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
 import de.buildersinc.fts.cooking.tasks.BlockUpdateTask;
 import org.bukkit.Material;
@@ -13,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -29,11 +32,25 @@ public class PotGuiListener implements Listener {
     public void onInvClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        CraftingMatrix invMatrix = CraftingMatrix.inventoryToMatrix(event.getInventory());
-        if (checkResult(invMatrix, event.getInventory())) {
-            clearCraftingField(event.getInventory());
-        }
 
+
+
+        Block block = CraftingManager.getBlockFromPlayer(player);
+        if (block == null) return;
+
+
+        BlockUpdateTask blockUpdateTask = new BlockUpdateTask(block);
+
+
+        CraftingMatrix invMatrix = CraftingMatrix.inventoryToMatrix(event.getInventory());
+        CraftingMatrix resultMatrix = checkResult(invMatrix);
+        PersistentDataContainer blockData = new CustomBlockData(block, Cooking.getPlugin());
+
+
+        if (event.getSlot() == 12 + 9 + 3) {
+            NamespacedKey resultFinish = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingFinish");
+            blockData.set(resultFinish, PersistentDataType.INTEGER, 0);
+        }
         ItemStack itemStack = event.getCurrentItem();
 
         if (itemStack == null) return;
@@ -44,22 +61,33 @@ public class PotGuiListener implements Listener {
         String id = container.get(key, PersistentDataType.STRING);
         if (id != null) {
             event.setCancelled(true);
+
             if (id.equalsIgnoreCase("startCooking")) {
-                Block block = CraftingManager.getBlockFromPlayer(player);
-                BlockUpdateTask blockUpdateTask = new BlockUpdateTask(block);
-                blockUpdateTask.startTask();
+                if (resultMatrix != null) {
+                    NamespacedKey resultItem = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingResult");
+                    NamespacedKey resultCount = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingAmount");
+
+                    blockData.set(resultCount, PersistentDataType.INTEGER, blockData.get(resultCount, PersistentDataType.INTEGER) == null ? 1 : blockData.get(resultCount, PersistentDataType.INTEGER));
+
+
+                    ItemMeta resultItemMeta = resultMatrix.getResult().getItemMeta();
+                    String itemString = resultItemMeta.getPersistentDataContainer().get(new NamespacedKey(plugin, "ftsCooking"), PersistentDataType.STRING);
+                    System.out.println(itemString);
+                    blockData.set(resultItem, PersistentDataType.STRING, itemString);
+                    clearCraftingField(event.getInventory());
+                    blockUpdateTask.startTask();
+                }
             }
         }
     }
 
-    private boolean checkResult(CraftingMatrix invMatrix, Inventory inventory) {
+    private CraftingMatrix checkResult(CraftingMatrix invMatrix) {
         for (CraftingMatrix matrix : Cooking.getCraftingManager().getCustomCrafting()) {
             if (matrix.compareTo(invMatrix) == 0) {
-                inventory.setItem(24, matrix.getResult());
-                return true;
+                return matrix;
             }
         }
-        return false;
+        return null;
     }
 
     private void clearCraftingField(Inventory inventory) {
@@ -67,7 +95,10 @@ public class PotGuiListener implements Listener {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 itemIndex = 10 + col + (9 * row);
-                inventory.setItem(itemIndex, new ItemStack(Material.AIR));
+                ItemStack item = inventory.getItem(itemIndex);
+                if (item != null) {
+                    item.setAmount(item.getAmount() - 1);
+                }
             }
         }
     }
