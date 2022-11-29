@@ -1,19 +1,19 @@
 package de.buildersinc.fts.cooking.tasks;
 
 import com.jeff_media.customblockdata.CustomBlockData;
+import de.buildersinc.fts.cooking.crafting.CraftingManager;
 import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 
 public class BlockUpdateTask {
     private Block block;
+    private boolean isRunning;
     private int pid;
     private NamespacedKey resultItem;
     private NamespacedKey resultTrue;
@@ -30,16 +30,14 @@ public class BlockUpdateTask {
         this.craftingAmount = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingAmount");
         this.finishedAmount = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingFinishAmount");
 
-
+        this.isRunning = false;
         this.block = block;
     }
 
     public void startTask() {
 
-
         pid = Bukkit.getScheduler().scheduleSyncRepeatingTask(Cooking.getPlugin(), this::task, 1, 5);
-
-        System.out.println(pid + "gestartet");
+        this.isRunning = true;
     }
 
     public void stopTask() {
@@ -48,18 +46,21 @@ public class BlockUpdateTask {
         PersistentDataContainer container = new CustomBlockData(this.block, Cooking.getPlugin());
         container.set(nsk, PersistentDataType.INTEGER, 0);
 
-        System.out.println(pid + "gestopt");
+        CraftingManager.getProcessMap().remove(block);
 
     }
 
+    public Block getBlock() {
+        return block;
+    }
+
     public boolean isRunning() {
-        return Bukkit.getScheduler().isCurrentlyRunning(pid);
+        return isRunning;
     }
 
 
     private void task() {
-
-        System.out.println(pid + "is running");
+        System.out.println(CraftingManager.getProcessMap());
 
         PersistentDataContainer container = new CustomBlockData(this.block, Cooking.getPlugin());
 
@@ -76,13 +77,11 @@ public class BlockUpdateTask {
 
                 int amount = container.get(craftingAmount, PersistentDataType.INTEGER);
 
-                if (0 < amount) {
-                    container.set(craftingAmount, PersistentDataType.INTEGER, container.get(craftingAmount, PersistentDataType.INTEGER) - 1);
+                if (amount > 0) {
+                    container.set(craftingAmount, PersistentDataType.INTEGER, amount - 1);
                     container.set(cookingTime, PersistentDataType.INTEGER, 0);
 
                     container.set(finishedAmount, PersistentDataType.INTEGER, container.get(finishedAmount, PersistentDataType.INTEGER) == null ? 1 : container.get(finishedAmount, PersistentDataType.INTEGER) + 1);
-
-
                 } else {
                     stopTask();
                 }

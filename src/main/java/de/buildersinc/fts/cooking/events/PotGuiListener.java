@@ -3,10 +3,8 @@ package de.buildersinc.fts.cooking.events;
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.buildersinc.fts.cooking.crafting.CraftingManager;
 import de.buildersinc.fts.cooking.crafting.CraftingMatrix;
-import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
 import de.buildersinc.fts.cooking.tasks.BlockUpdateTask;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -35,11 +33,10 @@ public class PotGuiListener implements Listener {
 
 
 
-        Block block = CraftingManager.getBlockFromPlayer(player);
+        BlockUpdateTask blockUpdateTask = CraftingManager.getTaskFromBlock(CraftingManager.getBlockFromPlayer(player));
+        Block block = blockUpdateTask.getBlock();
+
         if (block == null) return;
-
-
-        BlockUpdateTask blockUpdateTask = new BlockUpdateTask(block);
 
 
         CraftingMatrix invMatrix = CraftingMatrix.inventoryToMatrix(event.getInventory());
@@ -49,7 +46,10 @@ public class PotGuiListener implements Listener {
 
         if (event.getSlot() == 12 + 9 + 3) {
             NamespacedKey resultFinish = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingFinish");
+            NamespacedKey resultCount = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingFinishAmount");
+            blockData.set(resultCount, PersistentDataType.INTEGER, 0);
             blockData.set(resultFinish, PersistentDataType.INTEGER, 0);
+
         }
         ItemStack itemStack = event.getCurrentItem();
 
@@ -67,15 +67,16 @@ public class PotGuiListener implements Listener {
                     NamespacedKey resultItem = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingResult");
                     NamespacedKey resultCount = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingAmount");
 
-                    blockData.set(resultCount, PersistentDataType.INTEGER, blockData.get(resultCount, PersistentDataType.INTEGER) == null ? 1 : blockData.get(resultCount, PersistentDataType.INTEGER));
+                    blockData.set(resultCount, PersistentDataType.INTEGER, blockData.get(resultCount, PersistentDataType.INTEGER) == null ? 1 : blockData.get(resultCount, PersistentDataType.INTEGER) + 1);
 
 
                     ItemMeta resultItemMeta = resultMatrix.getResult().getItemMeta();
                     String itemString = resultItemMeta.getPersistentDataContainer().get(new NamespacedKey(plugin, "ftsCooking"), PersistentDataType.STRING);
-                    System.out.println(itemString);
                     blockData.set(resultItem, PersistentDataType.STRING, itemString);
                     clearCraftingField(event.getInventory());
-                    blockUpdateTask.startTask();
+                    if (!blockUpdateTask.isRunning()) {
+                        blockUpdateTask.startTask();
+                    }
                 }
             }
         }

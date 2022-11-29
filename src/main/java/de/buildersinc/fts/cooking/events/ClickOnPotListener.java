@@ -2,8 +2,10 @@ package de.buildersinc.fts.cooking.events;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.buildersinc.fts.cooking.crafting.CraftingManager;
+import de.buildersinc.fts.cooking.crafting.CraftingMatrix;
 import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
+import de.buildersinc.fts.cooking.tasks.BlockUpdateTask;
 import de.buildersinc.fts.cooking.utils.GuiTools;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -44,8 +46,11 @@ public class ClickOnPotListener implements Listener {
             case "good_pot" ->  event.getPlayer().openInventory(potInv(ChatColor.DARK_GRAY, "Guter Topf", result, container));
             case "super_pot" -> event.getPlayer().openInventory(potInv(ChatColor.YELLOW, "Perfekter Topf", result, container));
         }
+        if (!CraftingManager.getProcessMap().containsKey(event.getClickedBlock())) {
+            CraftingManager.addToProcessMap(event.getClickedBlock(), new BlockUpdateTask(event.getClickedBlock()));
+        }
+        CraftingManager.addPlayerBlock(event.getPlayer(), event.getClickedBlock());
 
-        CraftingManager.addToProcessMap(event.getPlayer(), event.getClickedBlock());
 
     }
 

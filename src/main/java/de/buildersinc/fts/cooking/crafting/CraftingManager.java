@@ -2,6 +2,7 @@ package de.buildersinc.fts.cooking.crafting;
 
 import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
+import de.buildersinc.fts.cooking.tasks.BlockUpdateTask;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -27,11 +28,13 @@ public class CraftingManager implements Listener {
 
     private Cooking plugin;
     private List<CraftingMatrix> customCrafting;
-    private static HashMap<Player, Block> currentCraftingProcesses;
+    private static HashMap<Player, Block> playerBlockMap;
+    private static HashMap<Block, BlockUpdateTask> blockBlockUpdateTaskMap;
 
     public CraftingManager(Cooking plugin) {
         this.plugin = plugin;
-        currentCraftingProcesses = new HashMap<>();
+        playerBlockMap = new HashMap<>();
+        blockBlockUpdateTaskMap = new HashMap<>();
         customCrafting = new ArrayList<>();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
@@ -43,7 +46,7 @@ public class CraftingManager implements Listener {
 
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
-        currentCraftingProcesses.remove(event.getPlayer());
+        playerBlockMap.remove(event.getPlayer());
     }
 
     private void initVanillaBasedRecipes() {
@@ -246,12 +249,23 @@ public class CraftingManager implements Listener {
 
     }
 
-    public static Block getBlockFromPlayer(Player player) {
-        return currentCraftingProcesses.get(player);
+    public static BlockUpdateTask getTaskFromBlock(Block block) {
+        return blockBlockUpdateTaskMap.get(block);
     }
 
-    public static void addToProcessMap(Player player, Block block) {
-        currentCraftingProcesses.put(player, block);
+    public static HashMap<Block, BlockUpdateTask> getProcessMap() {
+        return blockBlockUpdateTaskMap;
+    }
+
+    public static void addPlayerBlock(Player player, Block block) {
+        playerBlockMap.put(player, block);
+    }
+    public static Block getBlockFromPlayer(Player player) {
+        return playerBlockMap.get(player);
+    }
+
+    public static void addToProcessMap(Block block, BlockUpdateTask task) {
+        blockBlockUpdateTaskMap.put(block, task);
     }
 
     public void addRecipe(CraftingMatrix matrix) {

@@ -29,7 +29,7 @@ public class DebugCmd implements CommandExecutor {
         }
         player.openInventory(debugInv);
 
-        System.out.println(CraftingManager.getBlockFromPlayer((Player) sender));
+//        System.out.println(CraftingManager.getTaskFromBlock((Player) sender));
         return false;
     }
 }
