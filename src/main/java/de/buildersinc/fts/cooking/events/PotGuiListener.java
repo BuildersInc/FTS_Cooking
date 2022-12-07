@@ -5,8 +5,10 @@ import de.buildersinc.fts.cooking.crafting.CraftingManager;
 import de.buildersinc.fts.cooking.crafting.CraftingMatrix;
 import de.buildersinc.fts.cooking.main.Cooking;
 import de.buildersinc.fts.cooking.tasks.BlockUpdateTask;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Lightable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -59,10 +61,12 @@ public class PotGuiListener implements Listener {
         PersistentDataContainer container = itemStack.getItemMeta().getPersistentDataContainer();
         NamespacedKey key = new NamespacedKey(Cooking.getPlugin(), "pot");
         String id = container.get(key, PersistentDataType.STRING);
+        Block blockDown = block.getLocation().subtract(0, 1, 0).getBlock();
+
         if (id != null) {
             event.setCancelled(true);
 
-            if (id.equalsIgnoreCase("startCooking")) {
+            if (id.equalsIgnoreCase("startCooking") && blockDown.getType() == Material.CAMPFIRE && !((Lightable) blockDown.getBlockData()).isLit()) {
                 if (resultMatrix != null) {
                     NamespacedKey resultItem = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingResult");
                     NamespacedKey resultCount = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingAmount");
@@ -81,6 +85,9 @@ public class PotGuiListener implements Listener {
             }
         }
     }
+//           if (blockDown.getType() == Material.CAMPFIRE && !((Lightable) blockDown.getBlockData()).isLit()) {
+//        return;
+//    }
 
     private CraftingMatrix checkResult(CraftingMatrix invMatrix) {
         for (CraftingMatrix matrix : Cooking.getCraftingManager().getCustomCrafting()) {

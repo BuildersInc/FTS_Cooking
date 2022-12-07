@@ -5,8 +5,14 @@ import de.buildersinc.fts.cooking.crafting.CraftingManager;
 import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.Campfire;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Lightable;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockDataMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -41,6 +47,7 @@ public class BlockUpdateTask {
     }
 
     public void stopTask() {
+        System.out.println("Fertig");
         Bukkit.getScheduler().cancelTask(pid);
         NamespacedKey nsk = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingTime");
         PersistentDataContainer container = new CustomBlockData(this.block, Cooking.getPlugin());
@@ -63,6 +70,11 @@ public class BlockUpdateTask {
         System.out.println(CraftingManager.getProcessMap());
 
         PersistentDataContainer container = new CustomBlockData(this.block, Cooking.getPlugin());
+        Block blockDown = block.getLocation().subtract(0, 1, 0).getBlock();
+
+        if (blockDown.getType() == Material.CAMPFIRE && !((Lightable) blockDown.getBlockData()).isLit()) {
+            return;
+        }
 
 
         String resultString = container.get(resultItem, PersistentDataType.STRING);
