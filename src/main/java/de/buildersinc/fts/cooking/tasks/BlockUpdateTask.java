@@ -18,11 +18,15 @@ public class BlockUpdateTask {
     private final Block block;
     private boolean isRunning;
     private int pid;
+    private float speedMultiplier;
+    private final NamespacedKey potType;
     private final NamespacedKey resultItem;
     private final NamespacedKey resultTrue;
     private final NamespacedKey cookingTime;
     private final NamespacedKey craftingAmount;
     private final NamespacedKey finishedAmount;
+    private final PersistentDataContainer container;
+
 
 
 
@@ -32,9 +36,19 @@ public class BlockUpdateTask {
         this.cookingTime = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingTime");
         this.craftingAmount = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingAmount");
         this.finishedAmount = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingFinishAmount");
+        this.potType = new NamespacedKey(Cooking.getPlugin(), "ftsCooking");
+
 
         this.isRunning = false;
         this.block = block;
+        this.container = new CustomBlockData(this.block, Cooking.getPlugin());
+
+        this.speedMultiplier = switch (container.get(potType, PersistentDataType.STRING)) {
+            case "simple_pot" -> 1.0f;
+            case "good_pot" -> 1.3f;
+            case "super_pot" -> 1.5f;
+            default -> 1.0f;
+        };
 
     }
 
@@ -48,7 +62,6 @@ public class BlockUpdateTask {
 
     public void stopTask() {
         Bukkit.getScheduler().cancelTask(pid);
-        PersistentDataContainer container = new CustomBlockData(this.block, Cooking.getPlugin());
         container.set(cookingTime, PersistentDataType.INTEGER, 0);
         BlockUtils.setCauldronLevel(block, 1);
 
@@ -67,13 +80,12 @@ public class BlockUpdateTask {
 
     private void task() {
 
-        PersistentDataContainer container = new CustomBlockData(this.block, Cooking.getPlugin());
+
         Block blockDown = block.getLocation().subtract(0, 1, 0).getBlock();
 
         if (blockDown.getType() == Material.CAMPFIRE && !((Lightable) blockDown.getBlockData()).isLit()) {
             return;
         }
-
 
         String resultString = container.get(resultItem, PersistentDataType.STRING);
         if (resultString != null) {
@@ -81,7 +93,7 @@ public class BlockUpdateTask {
             container.set(cookingTime, PersistentDataType.INTEGER, time + 1);
             Items item = Items.valueOf(resultString.toUpperCase());
 
-            if (time >= item.getCookingTime()) {
+            if (time >= item.getCookingTime() / speedMultiplier) {
                 container.set(resultTrue, PersistentDataType.INTEGER, 1);
 
                 int amount = container.get(craftingAmount, PersistentDataType.INTEGER);
@@ -97,4 +109,6 @@ public class BlockUpdateTask {
             }
         }
     }
+
+
 }

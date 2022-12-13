@@ -50,22 +50,22 @@ public class CraftingManager implements Listener {
 
         // Cookie
         NamespacedKey cookieKey = new NamespacedKey(plugin, "cookieKey");
-        FurnaceRecipe cookie = new FurnaceRecipe(cookieKey, Items.COOKIE.getItemStack(), new RecipeChoice.ExactChoice(Items.COOKIE_DOUGH.getItemStack()), 1.00F, 20);
+        FurnaceRecipe cookie = new FurnaceRecipe(cookieKey, Items.COOKIE.getItemStack(), new RecipeChoice.ExactChoice(Items.COOKIE_DOUGH.getItemStack()), 1.00F, 20 * 5);
         plugin.getServer().addRecipe(cookie);
 
         // Sweet Cake
         NamespacedKey sweetCakeKey = new NamespacedKey(plugin, "sweetCakeKey");
-        FurnaceRecipe sweetCake = new FurnaceRecipe(sweetCakeKey, Items.SWEET_PIE.getItemStack(), new RecipeChoice.ExactChoice(Items.SWEET_PIE_DOUGH.getItemStack()), 3.00F, 30);
+        FurnaceRecipe sweetCake = new FurnaceRecipe(sweetCakeKey, Items.SWEET_PIE.getItemStack(), new RecipeChoice.ExactChoice(Items.SWEET_PIE_DOUGH.getItemStack()), 3.00F, 20 * 10);
         plugin.getServer().addRecipe(sweetCake);
 
         // Pumpkin pie
         NamespacedKey pumpkinPieKey = new NamespacedKey(plugin, "pumpkinPieKey");
-        FurnaceRecipe pumpkinPie = new FurnaceRecipe(pumpkinPieKey, Items.PUMPKIN_PIE.getItemStack(), new RecipeChoice.ExactChoice(Items.PUMPKIN_PIE_DOUGH.getItemStack()), 3.00F, 30);
+        FurnaceRecipe pumpkinPie = new FurnaceRecipe(pumpkinPieKey, Items.PUMPKIN_PIE.getItemStack(), new RecipeChoice.ExactChoice(Items.PUMPKIN_PIE_DOUGH.getItemStack()), 3.00F, 20 * 10);
         plugin.getServer().addRecipe(pumpkinPie);
 
         // Normal brick
         NamespacedKey brickKey = new NamespacedKey(plugin, "brickKey");
-        FurnaceRecipe brick = new FurnaceRecipe(brickKey, new ItemStack(Material.CLAY_BALL) , new RecipeChoice.ExactChoice(new ItemStack(Material.BRICK)), 1.00F, 45);
+        FurnaceRecipe brick = new FurnaceRecipe(brickKey, new ItemStack(Material.CLAY_BALL) , new RecipeChoice.ExactChoice(new ItemStack(Material.BRICK)), 1.00F, 125);
         plugin.getServer().addRecipe(brick);
 
         ShapedRecipe betterPotato = new ShapedRecipe(new NamespacedKey(plugin, "bp"), Items.BACKED_POTATO_WITH_CURD.getItemStack());

@@ -24,13 +24,13 @@ public enum Items {
     FISH_SOUP(Material.MUSHROOM_STEW, "Fischsuppe", 40),
     CHICKEN_SOUP(Material.MUSHROOM_STEW, "Hühnchen suppe", 45),
     PUMPKIN_PIE_DOUGH(Material.CLAY_BALL, "Kürbiskuchen Teig", 0),  // Crafting resource
-    PUMPKIN_PIE(Material.PUMPKIN_PIE, "Kürbiskuchen", 0),
+    PUMPKIN_PIE(Material.PUMPKIN_PIE, "Kürbiskuchen", 0),  // #Ofen
     SWEET_PIE_DOUGH(Material.CLAY_BALL, "Süßer Kuchen Teig", 0),  // Crafting resource
-    SWEET_PIE(Material.PUMPKIN_PIE, "Süßer Kuchen", 0),
-    COOKIE_DOUGH(Material.CLAY_BALL, "Keksteig", 0),  // Crafting resource
-    COOKIE(Material.COOKIE, "Keks", 0),
-    BACKED_POTATO(Material.BAKED_POTATO, "Gebackene Kartoffel", 0),
-    BACKED_POTATO_WITH_CURD(Material.BAKED_POTATO, "Gebackene Kartoffel mit Quark", 0),
+    SWEET_PIE(Material.PUMPKIN_PIE, "Süßer Kuchen", 0), // #Ofen
+    COOKIE_DOUGH(Material.CLAY_BALL, "Keksteig", 0),  // Crafting resource #CraftingTable
+    COOKIE(Material.COOKIE, "Keks", 0), // #Ofen
+    BACKED_POTATO(Material.BAKED_POTATO, "Gebackene Kartoffel", 0), // #Ofen
+    BACKED_POTATO_WITH_CURD(Material.BAKED_POTATO, "Gebackene Kartoffel mit Quark", 0), // #CraftingTable
     SIMPLE_POT(Material.CAULDRON, "Einfacher Topf", 0),
     GOOD_POT(Material.CAULDRON, "Guter Topf", 0),
     SUPER_POT(Material.CAULDRON, "Perfekter Topf", 0)
