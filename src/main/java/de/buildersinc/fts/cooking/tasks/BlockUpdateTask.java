@@ -4,12 +4,15 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import de.buildersinc.fts.cooking.crafting.CraftingManager;
 import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
+import de.buildersinc.fts.cooking.utils.BlockUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Fluid;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.Campfire;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.block.data.Lightable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockDataMeta;
@@ -38,20 +41,22 @@ public class BlockUpdateTask {
 
         this.isRunning = false;
         this.block = block;
+
     }
 
     public void startTask() {
 
         pid = Bukkit.getScheduler().scheduleSyncRepeatingTask(Cooking.getPlugin(), this::task, 1, 20);
+        BlockUtils.setCauldronLevel(block, 2);
+
         this.isRunning = true;
     }
 
     public void stopTask() {
-        System.out.println("Fertig");
         Bukkit.getScheduler().cancelTask(pid);
-        NamespacedKey nsk = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingTime");
         PersistentDataContainer container = new CustomBlockData(this.block, Cooking.getPlugin());
-        container.set(nsk, PersistentDataType.INTEGER, 0);
+        container.set(cookingTime, PersistentDataType.INTEGER, 0);
+        BlockUtils.setCauldronLevel(block, 1);
 
         CraftingManager.getProcessMap().remove(block);
 
@@ -67,7 +72,6 @@ public class BlockUpdateTask {
 
 
     private void task() {
-        System.out.println(CraftingManager.getProcessMap());
 
         PersistentDataContainer container = new CustomBlockData(this.block, Cooking.getPlugin());
         Block blockDown = block.getLocation().subtract(0, 1, 0).getBlock();
@@ -78,7 +82,6 @@ public class BlockUpdateTask {
 
 
         String resultString = container.get(resultItem, PersistentDataType.STRING);
-        System.out.println(resultString);
         if (resultString != null) {
             int time = container.get(cookingTime, PersistentDataType.INTEGER);
             container.set(cookingTime, PersistentDataType.INTEGER, time + 1);

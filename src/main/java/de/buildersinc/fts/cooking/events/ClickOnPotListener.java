@@ -30,7 +30,7 @@ public class ClickOnPotListener implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-        if (event.getClickedBlock().getType() != Material.CAULDRON) return;
+        if (!(event.getClickedBlock().getType() == Material.CAULDRON || event.getClickedBlock().getType() == Material.WATER_CAULDRON)) return;
 
         NamespacedKey nsk = new NamespacedKey(plugin, "ftsCooking");
         NamespacedKey resultTrue = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingFinish");
@@ -40,6 +40,7 @@ public class ClickOnPotListener implements Listener {
         boolean result = container.get(resultTrue, PersistentDataType.INTEGER) != null && container.get(resultTrue, PersistentDataType.INTEGER) == 1;
 
         if (potType == null) return;
+        event.setCancelled(true);
 
         switch (potType.toLowerCase()) {
             case "simple_pot" -> event.getPlayer().openInventory(potInv(ChatColor.BLACK, "Einfacher Topf", result, container));
@@ -55,7 +56,7 @@ public class ClickOnPotListener implements Listener {
     }
 
     private Inventory potInv(ChatColor color, String name, boolean finish, PersistentDataContainer blockData) {
-        Inventory inv = GuiTools.createChestGui(5, "pot", color + name, Material.BLACK_STAINED_GLASS_PANE, false);
+        Inventory inv = GuiTools.createChestGui(5, "pot", color + name, Material.BLACK_STAINED_GLASS_PANE, false, true);
 
         inv.setItem(10, new ItemStack(Material.AIR));
         inv.setItem(11, new ItemStack(Material.AIR));

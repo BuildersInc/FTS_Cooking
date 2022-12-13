@@ -6,6 +6,7 @@ import de.buildersinc.fts.cooking.tasks.BlockUpdateTask;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,13 +45,11 @@ public class CraftingManager implements Listener {
         initCustomRecipes();
     }
 
-    @EventHandler
-    public void onClose(InventoryCloseEvent event) {
-        playerBlockMap.remove(event.getPlayer());
-    }
 
     private void initVanillaBasedRecipes() {
         plugin.getServer().removeRecipe(Material.BRICK.getKey());
+        plugin.getServer().removeRecipe(Material.COOKIE.getKey());
+        plugin.getServer().removeRecipe(Material.PUMPKIN_PIE.getKey());
 
         // Cookie
         NamespacedKey cookieKey = new NamespacedKey(plugin, "cookieKey");
@@ -88,6 +87,34 @@ public class CraftingManager implements Listener {
         flour.setIngredient('s', new ItemStack(Material.WHEAT_SEEDS));
         flour.setIngredient('w', new ItemStack(Material.WHEAT));
         plugin.getServer().addRecipe(flour);
+
+        ShapedRecipe pumpkinPieDough = new ShapedRecipe(new NamespacedKey(plugin, "pdd"), Items.PUMPKIN_PIE_DOUGH.getItemStack());
+        pumpkinPieDough.shape("wsw", "epe", "zfz");
+        pumpkinPieDough.setIngredient('w', new ItemStack(Material.WATER_BUCKET));
+        pumpkinPieDough.setIngredient('z', new ItemStack(Material.SUGAR));
+        pumpkinPieDough.setIngredient('e', new ItemStack(Material.EGG));
+        pumpkinPieDough.setIngredient('p', new ItemStack(Material.PUMPKIN));
+        pumpkinPieDough.setIngredient('s', Items.SALT.getItemStack());
+        pumpkinPieDough.setIngredient('f', Items.FLOUR.getItemStack());
+        plugin.getServer().addRecipe(pumpkinPieDough);
+
+        ShapedRecipe sweetCakeDough = new ShapedRecipe(new NamespacedKey(plugin, "scd"), Items.SWEET_PIE.getItemStack());
+        sweetCakeDough.shape("bsb", "fmf", "eme");
+        sweetCakeDough.setIngredient('b', new ItemStack(Material.SWEET_BERRIES));
+        sweetCakeDough.setIngredient('s', new ItemStack(Material.SUGAR));
+        sweetCakeDough.setIngredient('m', new ItemStack(Material.MILK_BUCKET));
+        sweetCakeDough.setIngredient('f', Items.FLOUR.getItemStack());
+        sweetCakeDough.setIngredient('e', new ItemStack(Material.EGG));
+        plugin.getServer().addRecipe(sweetCakeDough);
+
+        ShapedRecipe cookieDough = new ShapedRecipe(new NamespacedKey(plugin, "cd"),Items.COOKIE_DOUGH.getItemStack());
+        cookieDough.shape("wbw", "cwc", "sfs");
+        cookieDough.setIngredient('w', new ItemStack(Material.WHEAT));
+        cookieDough.setIngredient('c', new ItemStack(Material.COCOA_BEANS));
+        cookieDough.setIngredient('b', new ItemStack(Material.WATER_BUCKET));
+        cookieDough.setIngredient('s', new ItemStack(Material.SUGAR));
+        cookieDough.setIngredient('f', Items.FLOUR.getItemStack());
+        plugin.getServer().addRecipe(cookieDough);
 
     }
 
@@ -218,34 +245,6 @@ public class CraftingManager implements Listener {
         chickenSoup.setItem('w', new ItemStack(Material.WATER_BUCKET));
         chickenSoup.setResult(Items.CHICKEN_SOUP.getItemStack());
         chickenSoup.addRecipeAsMatrix(true);
-
-        CraftingMatrix pumpkinPie = new CraftingMatrix("wsw", "epe", "zfz");
-        pumpkinPie.setItem('w', new ItemStack(Material.WATER_BUCKET));
-        pumpkinPie.setItem('z', new ItemStack(Material.SUGAR));
-        pumpkinPie.setItem('e', new ItemStack(Material.EGG));
-        pumpkinPie.setItem('p', new ItemStack(Material.PUMPKIN));
-        pumpkinPie.setItem('s', Items.SALT.getItemStack());
-        pumpkinPie.setItem('f', Items.FLOUR.getItemStack());
-        pumpkinPie.setResult(Items.PUMPKIN_PIE_DOUGH.getItemStack());
-        pumpkinPie.addRecipeAsMatrix(true);
-
-        CraftingMatrix sweetCake = new CraftingMatrix("bsb", "fmf", "eme");
-        sweetCake.setItem('b', new ItemStack(Material.SWEET_BERRIES));
-        sweetCake.setItem('s', new ItemStack(Material.SUGAR));
-        sweetCake.setItem('m', new ItemStack(Material.MILK_BUCKET));
-        sweetCake.setItem('f', Items.FLOUR.getItemStack());
-        sweetCake.setItem('e', new ItemStack(Material.EGG));
-        sweetCake.setResult(Items.SWEET_PIE_DOUGH.getItemStack());
-        sweetCake.addRecipeAsMatrix(true);
-
-        CraftingMatrix cookie = new CraftingMatrix("wbw", "cwc", "sfs");
-        cookie.setItem('w', new ItemStack(Material.WHEAT));
-        cookie.setItem('c', new ItemStack(Material.COCOA_BEANS));
-        cookie.setItem('b', new ItemStack(Material.WATER_BUCKET));
-        cookie.setItem('s', new ItemStack(Material.SUGAR));
-        cookie.setItem('f', Items.FLOUR.getItemStack());
-        cookie.setResult(Items.COOKIE_DOUGH.getItemStack());
-        cookie.addRecipeAsMatrix(true);
 
     }
 

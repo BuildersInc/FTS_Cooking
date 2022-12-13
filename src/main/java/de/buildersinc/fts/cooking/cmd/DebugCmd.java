@@ -21,15 +21,14 @@ public class DebugCmd implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
-
-        Inventory debugInv = GuiTools.createChestGui(5, "Debug", "debug", Material.GLASS_PANE, false);
+        if (!player.isOp()) return false;
+        Inventory debugInv = GuiTools.createChestGui(5, "Debug", "debug", Material.GLASS_PANE, false, false);
         int i = 0;
         for (Items item : Items.values()) {
             debugInv.setItem(i++, item.getItemStack());
         }
         player.openInventory(debugInv);
 
-//        System.out.println(CraftingManager.getTaskFromBlock((Player) sender));
         return false;
     }
 }

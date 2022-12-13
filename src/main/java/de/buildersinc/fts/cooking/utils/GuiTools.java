@@ -1,6 +1,5 @@
 package de.buildersinc.fts.cooking.utils;
 
-import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -11,7 +10,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.StonecutterInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -79,6 +77,7 @@ public class GuiTools {
 
     }
 
+
     /**
      * Creates an inventory with a filler material
      *
@@ -87,8 +86,13 @@ public class GuiTools {
      * @param material        material of the filler item
      * @return chestGui
      */
-    public static Inventory createChestGui(int height, String nameSpace, String nameOfInventory, Material material, boolean glint) {
-        Inventory inv = Bukkit.createInventory(null, 9 * height, Component.text(nameOfInventory));
+    public static Inventory createChestGui(int height, String nameSpace, String nameOfInventory, Material material, boolean glint, boolean check) {
+        Inventory inv;
+        if (check) {
+            inv = Bukkit.createInventory(new DummyHolder(), 9 * height, Component.text(nameOfInventory));
+        } else {
+            inv = Bukkit.createInventory(null, 9 * height, Component.text(nameOfInventory));
+        }
         ItemStack placeholder = nonAirPlaceholder(material, nameSpace, glint);
         for (int i = 0; i < height * 9; i++) {
             inv.setItem(i, placeholder);

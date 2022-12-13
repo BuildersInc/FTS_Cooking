@@ -3,10 +3,7 @@ package de.buildersinc.fts.cooking.main;
 
 import de.buildersinc.fts.cooking.cmd.DebugCmd;
 import de.buildersinc.fts.cooking.crafting.CraftingManager;
-import de.buildersinc.fts.cooking.events.BlockBreakListener;
-import de.buildersinc.fts.cooking.events.ClickOnPotListener;
-import de.buildersinc.fts.cooking.events.PotGuiListener;
-import de.buildersinc.fts.cooking.events.PotPlaceListener;
+import de.buildersinc.fts.cooking.events.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -27,6 +24,7 @@ public final class Cooking extends JavaPlugin {
         new ClickOnPotListener(this);
         new PotPlaceListener(this);
         new PotGuiListener(this);
+        new GuiInventoryCloseEvent(this);
     }
 
     @Override

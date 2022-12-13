@@ -22,7 +22,7 @@ public class BlockBreakListener implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
         if (event.getBlock().getType() != Material.DIORITE) return;
-        if (!chance(50)) return;
+        if (!chance(5)) return;
 
         Block block = event.getBlock();
         block.getDrops(Items.SALT.getItemStack());
