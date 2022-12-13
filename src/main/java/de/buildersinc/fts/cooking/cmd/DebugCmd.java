@@ -1,6 +1,5 @@
 package de.buildersinc.fts.cooking.cmd;
 
-import de.buildersinc.fts.cooking.crafting.CraftingManager;
 import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
 import de.buildersinc.fts.cooking.utils.GuiTools;
@@ -12,10 +11,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class DebugCmd implements CommandExecutor {
 
     public DebugCmd(Cooking plugin) {
-        plugin.getCommand("debug").setExecutor(this);
+        Objects.requireNonNull(plugin.getCommand("debug")).setExecutor(this);
     }
 
     @Override

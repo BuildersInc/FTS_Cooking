@@ -6,29 +6,23 @@ import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
 import de.buildersinc.fts.cooking.utils.BlockUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Fluid;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.block.Campfire;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Levelled;
 import org.bukkit.block.data.Lightable;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BlockDataMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 
 public class BlockUpdateTask {
-    private Block block;
+    private final Block block;
     private boolean isRunning;
     private int pid;
-    private NamespacedKey resultItem;
-    private NamespacedKey resultTrue;
-    private NamespacedKey cookingTime;
-    private NamespacedKey craftingAmount;
-    private NamespacedKey finishedAmount;
+    private final NamespacedKey resultItem;
+    private final NamespacedKey resultTrue;
+    private final NamespacedKey cookingTime;
+    private final NamespacedKey craftingAmount;
+    private final NamespacedKey finishedAmount;
 
 
 

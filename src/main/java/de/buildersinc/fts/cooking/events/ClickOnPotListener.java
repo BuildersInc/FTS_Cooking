@@ -2,7 +2,6 @@ package de.buildersinc.fts.cooking.events;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.buildersinc.fts.cooking.crafting.CraftingManager;
-import de.buildersinc.fts.cooking.crafting.CraftingMatrix;
 import de.buildersinc.fts.cooking.enums.Items;
 import de.buildersinc.fts.cooking.main.Cooking;
 import de.buildersinc.fts.cooking.tasks.BlockUpdateTask;
@@ -19,8 +18,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Objects;
+
 public class ClickOnPotListener implements Listener {
-    private Cooking plugin;
+    private final Cooking plugin;
 
     public ClickOnPotListener(Cooking plugin) {
         this.plugin = plugin;
@@ -30,7 +31,7 @@ public class ClickOnPotListener implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-        if (!(event.getClickedBlock().getType() == Material.CAULDRON || event.getClickedBlock().getType() == Material.WATER_CAULDRON)) return;
+        if (!(Objects.requireNonNull(event.getClickedBlock()).getType() == Material.CAULDRON || event.getClickedBlock().getType() == Material.WATER_CAULDRON)) return;
 
         NamespacedKey nsk = new NamespacedKey(plugin, "ftsCooking");
         NamespacedKey resultTrue = new NamespacedKey(Cooking.getPlugin(), "ftsCookingCookingFinish");

@@ -6,11 +6,8 @@ import de.buildersinc.fts.cooking.tasks.BlockUpdateTask;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
@@ -27,7 +24,7 @@ import java.util.List;
 
 public class CraftingManager implements Listener {
 
-    private Cooking plugin;
+    private final Cooking plugin;
     private List<CraftingMatrix> customCrafting;
     private static HashMap<Player, Block> playerBlockMap;
     private static HashMap<Block, BlockUpdateTask> blockBlockUpdateTaskMap;
@@ -36,7 +33,7 @@ public class CraftingManager implements Listener {
         this.plugin = plugin;
         playerBlockMap = new HashMap<>();
         blockBlockUpdateTaskMap = new HashMap<>();
-        customCrafting = new ArrayList<>();
+        this.customCrafting = new ArrayList<>();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
     }

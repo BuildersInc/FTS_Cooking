@@ -15,9 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuiInventoryCloseEvent implements Listener {
-    private final Cooking plugin;
     public GuiInventoryCloseEvent(Cooking plugin) {
-        this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     @EventHandler

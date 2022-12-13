@@ -22,7 +22,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 
 public class PotGuiListener implements Listener {
-    private Cooking plugin;
+    private final Cooking plugin;
 
     public PotGuiListener(Cooking plugin) {
         this.plugin = plugin;
