@@ -18,14 +18,13 @@ public class BlockUpdateTask {
     private final Block block;
     private boolean isRunning;
     private int pid;
-    private float speedMultiplier;
+    private int speedMultiplier;
     private final NamespacedKey potType;
     private final NamespacedKey resultItem;
     private final NamespacedKey resultTrue;
     private final NamespacedKey cookingTime;
     private final NamespacedKey craftingAmount;
     private final NamespacedKey finishedAmount;
-    private final PersistentDataContainer container;
 
 
 
@@ -41,13 +40,13 @@ public class BlockUpdateTask {
 
         this.isRunning = false;
         this.block = block;
-        this.container = new CustomBlockData(this.block, Cooking.getPlugin());
 
-        this.speedMultiplier = switch (container.get(potType, PersistentDataType.STRING)) {
-            case "simple_pot" -> 1.0f;
-            case "good_pot" -> 1.3f;
-            case "super_pot" -> 1.5f;
-            default -> 1.0f;
+
+        this.speedMultiplier = switch (new CustomBlockData(this.block, Cooking.getPlugin()).get(potType, PersistentDataType.STRING)) {
+            case "simple_pot" -> 1;
+            case "good_pot" -> 2;
+            case "super_pot" -> 3;
+            default -> 1;
         };
 
     }
@@ -61,6 +60,8 @@ public class BlockUpdateTask {
     }
 
     public void stopTask() {
+        PersistentDataContainer container = new CustomBlockData(this.block, Cooking.getPlugin());
+
         Bukkit.getScheduler().cancelTask(pid);
         container.set(cookingTime, PersistentDataType.INTEGER, 0);
         BlockUtils.setCauldronLevel(block, 1);
@@ -80,9 +81,8 @@ public class BlockUpdateTask {
 
     private void task() {
 
-
+        PersistentDataContainer container = new CustomBlockData(this.block, Cooking.getPlugin());
         Block blockDown = block.getLocation().subtract(0, 1, 0).getBlock();
-
         if (blockDown.getType() == Material.CAMPFIRE && !((Lightable) blockDown.getBlockData()).isLit()) {
             return;
         }
@@ -90,10 +90,9 @@ public class BlockUpdateTask {
         String resultString = container.get(resultItem, PersistentDataType.STRING);
         if (resultString != null) {
             int time = container.get(cookingTime, PersistentDataType.INTEGER);
-            container.set(cookingTime, PersistentDataType.INTEGER, time + 1);
+            container.set(cookingTime, PersistentDataType.INTEGER, time + speedMultiplier);
             Items item = Items.valueOf(resultString.toUpperCase());
-
-            if (time >= item.getCookingTime() / speedMultiplier) {
+            if (time >= item.getCookingTime()) {
                 container.set(resultTrue, PersistentDataType.INTEGER, 1);
 
                 int amount = container.get(craftingAmount, PersistentDataType.INTEGER);
