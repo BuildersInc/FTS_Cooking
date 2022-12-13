@@ -86,7 +86,6 @@ public class BlockUpdateTask {
         if (blockDown.getType() == Material.CAMPFIRE && !((Lightable) blockDown.getBlockData()).isLit()) {
             return;
         }
-
         String resultString = container.get(resultItem, PersistentDataType.STRING);
         if (resultString != null) {
             int time = container.get(cookingTime, PersistentDataType.INTEGER);
