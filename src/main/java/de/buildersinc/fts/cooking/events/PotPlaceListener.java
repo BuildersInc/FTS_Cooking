@@ -27,7 +27,7 @@ public class PotPlaceListener implements Listener {
         Block block = event.getBlock();
 
         if (!itemStack.getItemMeta().getPersistentDataContainer().has(nsk)) return;
-        switch (itemStack.getItemMeta().getPersistentDataContainer().get(nsk, PersistentDataType.STRING)) {
+        switch (itemStack.getItemMeta().getPersistentDataContainer().get(nsk, PersistentDataType.STRING).toLowerCase()) {
             case "simple_pot" -> updateBlockData(block, "simple_pot", nsk);
             case "good_pot" -> updateBlockData(block, "good_pot", nsk);
             case "super_pot" -> updateBlockData(block, "super_pot", nsk);
