@@ -5,6 +5,15 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.Levelled;
 
 public class BlockUtils {
+    /**
+     * Sets the water level inside a minecraft cauldron
+     * 0 => Empty
+     * 1 => Minimum level
+     * 2 => Maximum level
+     *
+     * @param block
+     * @param level
+     */
     public static void setCauldronLevel(Block block, int level) {
         switch (level) {
             case 0 -> block.setType(Material.CAULDRON);

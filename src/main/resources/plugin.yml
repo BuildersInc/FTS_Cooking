@@ -1,7 +1,7 @@
 name: Cooking
 version: '${project.version}'
 main: de.buildersinc.fts.cooking.main.Cooking
-api-version: 1.19
+api-version: 1.20
 authors: [ Builders_Inc ]
 description: A new cooking system for the FTS-Craft server
 commands:
